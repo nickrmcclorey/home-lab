@@ -1,0 +1,64 @@
+services:
+  nextcloud:
+    image: nextcloud
+    container_name: nextcloud
+    restart: unless-stopped
+    networks: 
+      - cloud
+      - reverse-proxy # defined in parent compose file
+    depends_on:
+      - nextclouddb
+      - redis
+    ports:
+      - 8081:80
+    volumes:
+      - ./config:/var/www/html/config # config is stored in source control
+      - apps:/var/www/html/custom_apps # apps are in managed volume that can be backed up
+      - data:/var/www/html/data # data is in managed volume that can be backed up
+    env_file: .env
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=dbpassword
+      - MYSQL_HOST=nextclouddb
+      - REDIS_HOST=redis
+
+  nextclouddb:
+    image: mariadb
+    container_name: nextcloud-db
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    networks: 
+      - cloud
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_PASSWORD=dbpassword
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      
+  redis:
+    image: redis:alpine
+    container_name: redis
+    volumes:
+      - redis:/data
+    networks: 
+      - cloud
+  
+networks:
+  cloud:
+    name: cloud
+    driver: bridge
+
+volumes:
+  data:
+  redis:
+  apps:
+  db:

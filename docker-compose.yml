@@ -1,0 +1,30 @@
+services:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - $PWD/conf:/etc/caddy
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      reverse-proxy:
+        ipv4_address: 172.16.0.10
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  reverse-proxy:
+    name: reverse-proxy
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.0.0/24"
+
+include:
+  - nextcloud/docker-compose.yml

@@ -1,0 +1,14 @@
+localhost:80 {
+  respond "Hello world"
+}
+
+68.43.155.193 {
+  respond "anything"
+}
+
+nc.mcclorey.xyz {
+    redir /.well-known/carddav /remote.php/dav/ 301
+    redir /.well-known/caldav /remote.php/dav/ 301
+
+    reverse_proxy nextcloud 
+}
