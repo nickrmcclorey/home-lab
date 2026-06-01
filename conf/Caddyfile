@@ -6,7 +6,7 @@ localhost:80 {
   respond "anything"
 }
 
-nc.mcclorey.xyz {
+nc.mcclorey.us {
     redir /.well-known/carddav /remote.php/dav/ 301
     redir /.well-known/caldav /remote.php/dav/ 301
 

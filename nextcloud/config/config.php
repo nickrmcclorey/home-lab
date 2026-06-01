@@ -31,7 +31,7 @@ $CONFIG = array (
   'config_is_read_only' => true,
   'trusted_domains' => 
   array (
-    0 => 'nc.mcclorey.xyz',
+    0 => 'nc.mcclorey.us',
   ),
   'trusted_proxies' => 
     array (
@@ -40,7 +40,7 @@ $CONFIG = array (
   'datadirectory' => '/var/www/html/data',
   'dbtype' => 'mysql',
   'version' => '31.0.9.1',
-  'overwrite.cli.url' => 'http://nc.mcclorey.xyz',
+  'overwrite.cli.url' => 'http://nc.mcclorey.us',
   'dbname' => 'nextcloud',
   'dbhost' => 'nextclouddb',
   'dbport' => '',
